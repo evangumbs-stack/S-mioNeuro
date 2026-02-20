@@ -100,6 +100,20 @@ section h2{
     font-size:2rem;
 }
 
+/* ================= SEARCH ================= */
+#search-container{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+#search-input{
+    padding:10px 20px;
+    border-radius:12px;
+    border:none;
+    width:80%;
+    max-width:400px;
+}
+
 /* ================= CARDS ================= */
 .grid{
     display:grid;
@@ -200,6 +214,26 @@ footer{
     opacity:0.7;
 }
 
+/* ================= BACK TO TOP ================= */
+#back-to-top{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#3b82f6;
+    color:white;
+    padding:12px 18px;
+    border-radius:50px;
+    cursor:pointer;
+    display:none;
+    font-weight:600;
+    z-index:1000;
+}
+
+#back-to-top:hover{
+    background:white;
+    color:#0f172a;
+}
+
 /* ================= ANIMATIONS ================= */
 @keyframes fadeUp{
     from{opacity:0;transform:translateY(30px);}
@@ -228,9 +262,14 @@ footer{
 
 <section id="fiches">
     <h2>Mes Fiches</h2>
+
+    <div id="search-container">
+        <input type="text" id="search-input" placeholder="Rechercher une fiche...">
+    </div>
+
     <div class="grid">
 
-        <div class="card">
+        <div class="card" data-title="Sémiologie analytique du SNP">
             <img src="snp.jpg">
             <div class="card-content">
                 <h3>Sémiologie analytique du SNP</h3>
@@ -238,7 +277,7 @@ footer{
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-title="Épilepsie">
             <img src="epilepsie.jpg">
             <div class="card-content">
                 <h3>Épilepsie</h3>
@@ -246,7 +285,7 @@ footer{
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-title="Parkinson">
             <img src="evan.jpg">
             <div class="card-content">
                 <h3>Parkinson</h3>
@@ -254,7 +293,7 @@ footer{
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-title="Syndromes hémisphériques">
             <img src="syndromes_hemispheres.jpg">
             <div class="card-content">
                 <h3>Syndromes hémisphériques</h3>
@@ -262,7 +301,7 @@ footer{
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-title="Syndromes topographiques">
             <img src="syndromes_topographiques.jpg">
             <div class="card-content">
                 <h3>Syndromes topographiques</h3>
@@ -270,7 +309,7 @@ footer{
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-title="AVC">
             <img src="AVC.jpg">
             <div class="card-content">
                 <h3>AVC</h3>
@@ -283,11 +322,14 @@ footer{
 
 <section id="contact">
     <h2 style="text-align:center;margin-bottom:30px;">Contact</h2>
-    <div class="contact" style="text-align:center;">
-        
-        <a href="mailto:evan.gumbs@icloud.com?subject=Contact%20depuis%20mon%20site&body=Bonjour%20Evan,">
-            <button>Envoyer un message</button>
-        </a>
+    <div class="contact">
+
+        <form id="contact-form">
+            <input type="text" name="name" placeholder="Votre nom" required>
+            <input type="email" name="email" placeholder="Votre email" required>
+            <textarea name="message" placeholder="Votre message" required></textarea>
+            <button type="submit">Envoyer</button>
+        </form>
 
     </div>
 </section>
@@ -296,7 +338,11 @@ footer{
     © 2026 Evan Gums - Atlas de Sémiologie
 </footer>
 
+<div id="back-to-top">↑</div>
+
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
+// ================= CARD ANIMATION =================
 const cards = document.querySelectorAll('.card');
 
 const observer = new IntersectionObserver(entries=>{
@@ -308,6 +354,32 @@ const observer = new IntersectionObserver(entries=>{
 },{threshold:0.2});
 
 cards.forEach(card=>observer.observe(card));
+
+// ================= SEARCH FUNCTION =================
+const searchInput = document.getElementById('search-input');
+searchInput.addEventListener('input', function() {
+    const query = this.value.toLowerCase();
+    cards.forEach(card => {
+        const title = card.getAttribute('data-title').toLowerCase();
+        card.style.display = title.includes(query) ? 'block' : 'none';
+    });
+});
+
+// ================= BACK TO TOP =================
+const backToTop = document.getElementById('back-to-top');
+window.addEventListener('scroll', () => {
+    backToTop.style.display = window.scrollY > 300 ? 'block' : 'none';
+});
+backToTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+// ================= EMAILJS CONTACT =================
+emailjs.init("TON_USER_ID"); // Remplacer par ton User ID EmailJS
+
+document.getElementById('contact-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    emailjs.sendForm('TON_SERVICE_ID','TON_TEMPLATE_ID', this)
+      .then(() => alert('Message envoyé !'), (err) => alert('Erreur : ' + JSON.stringify(err)));
+});
 </script>
 
 </body>
