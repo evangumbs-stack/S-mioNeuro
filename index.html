@@ -8,7 +8,7 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
-body{background:#0f172a;color:white;overflow-x:hidden;scroll-behavior:smooth;}
+body{background:#0f172a;color:white;overflow-x:hidden;scroll-behavior:smooth;transition:0.3s;}
 
 /* ================= HEADER ================= */
 header{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background: linear-gradient(-45deg, #0f172a, #1e293b, #0d1b2a, #1e3a8a);background-size: 400% 400%;animation: gradientMove 12s ease infinite;}
@@ -46,18 +46,13 @@ section h2{text-align:center;margin-bottom:50px;font-size:2rem;}
 .card a:hover{background:white;color:#0f172a;}
 .download-count{font-size:0.9rem;opacity:0.8;margin-top:5px;}
 
-/* ================= CONTACT ================= */
-.contact{background:rgba(255,255,255,0.05);padding:40px;border-radius:20px;backdrop-filter:blur(15px);max-width:600px;margin:auto;}
-.contact input, .contact textarea{width:100%;padding:12px;margin-bottom:15px;border:none;border-radius:10px;}
-.contact button{padding:12px 30px;border:none;border-radius:10px;background:#3b82f6;color:white;font-weight:600;cursor:pointer;transition:0.3s;}
-.contact button:hover{transform:scale(1.1);box-shadow:0 0 20px #3b82f6;}
-
-/* ================= FOOTER ================= */
-footer{text-align:center;padding:30px;background:#0f172a;opacity:0.7;}
-
 /* ================= BACK TO TOP ================= */
 #back-to-top{position:fixed;bottom:20px;right:20px;background:#3b82f6;color:white;padding:12px 18px;border-radius:50px;cursor:pointer;display:none;font-weight:600;z-index:1000;}
 #back-to-top:hover{background:white;color:#0f172a;}
+
+/* ================= MODE CLAIR/SOMBRE ================= */
+#theme-toggle{position:fixed;bottom:20px;left:20px;padding:10px 20px;border-radius:50px;background:#3b82f6;color:white;cursor:pointer;z-index:1000;font-weight:600;transition:0.3s;}
+#theme-toggle:hover{background:white;color:#0f172a;}
 
 /* ================= ANIMATIONS ================= */
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
@@ -94,11 +89,12 @@ footer{text-align:center;padding:30px;background:#0f172a;opacity:0.7;}
         <button class="filter-btn" data-category="Parkinson">Parkinson</button>
         <button class="filter-btn" data-category="Syndromes">Syndromes</button>
         <button class="filter-btn" data-category="AVC">AVC</button>
+        <button class="filter-btn" data-category="Parcours">Parcours</button>
+        <button class="filter-btn" data-category="Liens">Liens utiles</button>
     </div>
 
     <div class="grid" id="cards-container">
-
-        <!-- Exemple de carte -->
+        <!-- Fiches existantes -->
         <div class="card" data-title="Sémiologie analytique du SNP" data-category="SNP">
             <img loading="lazy" src="snp.jpg">
             <div class="card-content">
@@ -107,7 +103,6 @@ footer{text-align:center;padding:30px;background:#0f172a;opacity:0.7;}
                 <div class="download-count" data-count="0">Téléchargements : 0</div>
             </div>
         </div>
-
         <div class="card" data-title="Épilepsie" data-category="Epilepsie">
             <img loading="lazy" src="epilepsie.jpg">
             <div class="card-content">
@@ -116,7 +111,6 @@ footer{text-align:center;padding:30px;background:#0f172a;opacity:0.7;}
                 <div class="download-count" data-count="0">Téléchargements : 0</div>
             </div>
         </div>
-
         <div class="card" data-title="Parkinson" data-category="Parkinson">
             <img loading="lazy" src="evan.jpg">
             <div class="card-content">
@@ -125,7 +119,6 @@ footer{text-align:center;padding:30px;background:#0f172a;opacity:0.7;}
                 <div class="download-count" data-count="0">Téléchargements : 0</div>
             </div>
         </div>
-
         <div class="card" data-title="Syndromes hémisphériques" data-category="Syndromes">
             <img loading="lazy" src="syndromes_hemispheres.jpg">
             <div class="card-content">
@@ -134,7 +127,6 @@ footer{text-align:center;padding:30px;background:#0f172a;opacity:0.7;}
                 <div class="download-count" data-count="0">Téléchargements : 0</div>
             </div>
         </div>
-
         <div class="card" data-title="Syndromes topographiques" data-category="Syndromes">
             <img loading="lazy" src="syndromes_topographiques.jpg">
             <div class="card-content">
@@ -143,7 +135,6 @@ footer{text-align:center;padding:30px;background:#0f172a;opacity:0.7;}
                 <div class="download-count" data-count="0">Téléchargements : 0</div>
             </div>
         </div>
-
         <div class="card" data-title="AVC" data-category="AVC">
             <img loading="lazy" src="AVC.jpg">
             <div class="card-content">
@@ -153,21 +144,41 @@ footer{text-align:center;padding:30px;background:#0f172a;opacity:0.7;}
             </div>
         </div>
 
+        <!-- Nouvelle catégorie Parcours -->
+        <div class="card" data-title="Mon Parcours Médecine" data-category="Parcours">
+            <img loading="lazy" src="parcours.jpg">
+            <div class="card-content">
+                <h3>Mon Parcours Médecine</h3>
+                <p>DFGSM1 → DFGSM3, stages et expériences</p>
+                <a href="parcours.pdf" target="_blank">Voir PDF</a>
+            </div>
+        </div>
+
+        <!-- Liens utiles -->
+        <div class="card" data-title="eCursus Université Antilles" data-category="Liens">
+            <img loading="lazy" src="ecursus.jpg">
+            <div class="card-content">
+                <h3>eCursus Université Antilles</h3>
+                <p>Accéder directement au site eCursus</p>
+                <a href="https://ecursus.univ-antilles.fr" target="_blank">Aller sur eCursus</a>
+            </div>
+        </div>
+
+        <div class="card" data-title="Roneobox Medik West Indies" data-category="Liens">
+            <img loading="lazy" src="roneobox.jpg">
+            <div class="card-content">
+                <h3>Roneobox Medik West Indies</h3>
+                <p>Accéder directement à la Roneobox</p>
+                <a href="https://medikwestindies.com/roneobox" target="_blank">Aller sur Roneobox</a>
+            </div>
+        </div>
+
     </div>
 </section>
 
 <section id="contact">
     <h2 style="text-align:center;margin-bottom:30px;">Contact</h2>
-    <div class="contact">
-
-        <form id="contact-form">
-            <input type="text" name="name" placeholder="Votre nom" required>
-            <input type="email" name="email" placeholder="Votre email" required>
-            <textarea name="message" placeholder="Votre message" required></textarea>
-            <button type="submit">Envoyer</button>
-        </form>
-
-    </div>
+    <p style="text-align:center;">Pour me contacter, utilisez directement votre messagerie pour envoyer un mail à <strong>evan.gumbs@icloud.com</strong></p>
 </section>
 
 <footer>
@@ -175,8 +186,8 @@ footer{text-align:center;padding:30px;background:#0f172a;opacity:0.7;}
 </footer>
 
 <div id="back-to-top">↑</div>
+<div id="theme-toggle">🌙</div>
 
-<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
 // ================= CARD ANIMATION =================
 const cards = document.querySelectorAll('.card');
@@ -219,21 +230,30 @@ backToTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smoo
 // ================= DOWNLOAD COUNTER =================
 const downloadLinks = document.querySelectorAll('.download-link');
 downloadLinks.forEach(link=>{
-    link.addEventListener('click', (e)=>{
+    link.addEventListener('click', ()=>{
         const countEl = link.nextElementSibling;
-        let count = parseInt(countEl.getAttribute('data-count'));
-        count++;
-        countEl.setAttribute('data-count', count);
-        countEl.textContent = "Téléchargements : " + count;
+        if(countEl){
+            let count = parseInt(countEl.getAttribute('data-count'));
+            count++;
+            countEl.setAttribute('data-count', count);
+            countEl.textContent = "Téléchargements : " + count;
+        }
     });
 });
 
-// ================= EMAILJS CONTACT =================
-emailjs.init("TON_USER_ID"); // Remplacer par ton User ID EmailJS
-document.getElementById('contact-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    emailjs.sendForm('TON_SERVICE_ID','TON_TEMPLATE_ID', this)
-      .then(() => alert('Message envoyé !'), (err) => alert('Erreur : ' + JSON.stringify(err)));
+// ================= MODE CLAIR/SOMBRE =================
+const themeToggle = document.getElementById('theme-toggle');
+themeToggle.addEventListener('click', ()=>{
+    document.body.classList.toggle('light-mode');
+    if(document.body.classList.contains('light-mode')){
+        document.body.style.background = "#f8f8f8";
+        document.body.style.color = "#0f172a";
+        themeToggle.textContent = "🌙";
+    } else {
+        document.body.style.background = "#0f172a";
+        document.body.style.color = "white";
+        themeToggle.textContent = "🌞";
+    }
 });
 </script>
 
